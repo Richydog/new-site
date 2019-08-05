@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = User::orderBy('id', 'desc')->paginate(20);
+        $user = User::orderBy('id', 'desc')->paginate(10);
         return view('admin.users.index', compact('user'));
     }
 
@@ -71,12 +71,7 @@ class UserController extends Controller
         return redirect('admin.users.index');
     }
 
-    public function verify(User $user)
-    {
-        $user->verify();
 
-        return view('admin.users.show',compact('user'));
-    }
 
 
 

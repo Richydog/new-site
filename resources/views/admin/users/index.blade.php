@@ -25,8 +25,10 @@
 
 
             </tr>
+
     @endforeach
         </tfoot>
     </table>
+    {{$user->links()}}
 </div>
 @endsection

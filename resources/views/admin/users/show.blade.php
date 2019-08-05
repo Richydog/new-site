@@ -4,6 +4,7 @@
     @include('admin.users._nav')
     <div class="d-flex flex-row mb-3">
         <a href="{{ route('users.edit',$user) }}" class="btn btn-primary mr-1">Edit</a>
+
         <form method="POST" action="{{ route('users.update',$user) }}" class="mr-1">
             @csrf
             @method('DELETE')

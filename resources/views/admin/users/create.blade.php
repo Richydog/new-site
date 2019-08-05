@@ -21,7 +21,10 @@
                 <span class="invalid-feedback"><strong>{{ $errors->first('email') }}</strong></span>
             @endif
         </div>
-
+        <div class="form-group">
+            <label for="email" class="col-form-label">Password</label>
+            <input id="password" type="password" class="form-control" required>
+        </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>

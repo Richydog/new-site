@@ -23,7 +23,7 @@ Route::get('profile', function () {
 })->middleware('verified');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware('auth')->group(
+Route::middleware('auth','can:admin-panel')->group(
      function () {
 
    Route::get('/admin','Admin\HomeController@index')->name('admin.home');

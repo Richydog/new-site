@@ -56,9 +56,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @can('admin-panel')
                                     <a class="dropdown-item" href="{{ route('admin.home') }}">Admin</a>
                                     <a class="dropdown-item" href="{{ route('users.index') }}">User</a>
                                     <a class="dropdown-item" href="{{ route('users.create') }}">Create</a>
+                                    @endcan
                                     <a class="dropdown-item" href="{{ route('home') }}">Cabinet</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
 

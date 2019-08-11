@@ -11,10 +11,33 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::orderBy('id', 'desc')->paginate(10);
-        return view('admin.users.index', compact('user'));
+     //   $user = User::orderBy('id', 'desc')->paginate(10);
+        $query = User::orderByDesc('id');
+
+        if (!empty($value = $request->get('id'))) {
+            $query->where('id', $value);
+        }
+
+        if (!empty($value = $request->get('name'))) {
+            $query->where('name', 'like', '%' . $value . '%');
+        }
+
+        if (!empty($value = $request->get('email'))) {
+            $query->where('email', 'like', '%' . $value . '%');
+        }
+
+        if (!empty($value = $request->get('role'))) {
+            $query->where('role', $value);
+        }
+
+        $user = $query->paginate(10);
+        $roles=[
+            User::ROLE_ADMIN =>'admin',
+            User::ROLE_USER =>'user'
+        ];
+        return view('admin.users.index', compact('user','roles'));
     }
 
 
@@ -29,12 +52,12 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-
+            'role' => [ 'string', 'max:16'],
         ]);
         $user = User::create(array(
             'name' => $request['name'],
             'email' => $request['email'],
-
+            'role' => $request['role'],
         ));
         return redirect()->route('users.show', $user);
     }
@@ -49,7 +72,11 @@ class UserController extends Controller
     public function edit(User $user)
 
     {
-        return view('admin.users.edit', compact('user'));
+        $roles=[
+            User::ROLE_ADMIN =>'admin',
+            User::ROLE_USER =>'user'
+        ];
+        return view('admin.users.edit', compact('user','roles'));
     }
 
 
@@ -58,6 +85,7 @@ class UserController extends Controller
         $data = $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users,id,' . $user->id,
+            'role' => [ 'string', 'max:16'],
         ]);
         $user->update($data);
         return view('admin.users.show', compact('user'));

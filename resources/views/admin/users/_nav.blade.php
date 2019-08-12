@@ -5,5 +5,7 @@
     <li class="nav-item"><a class="nav-link active " href="{{route('users.index')}}">User Приборная панель</a>
 
     </li>
-
+    </li>
+    <li class="nav-item"><a class="nav-link  " href="{{route('regions.index')}}">Region Приборная панель</a>
+    </li>
 </ul>

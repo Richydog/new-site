@@ -29,4 +29,5 @@ Route::middleware('auth','can:admin-panel')->group(
    Route::get('/admin','Admin\HomeController@index')->name('admin.home');
 
    Route::resource('/admin/users','Admin\UserController');
+         Route::resource('/admin/regions','Admin\RegionController');
 });

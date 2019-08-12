@@ -2,10 +2,12 @@
 
 @section('content')
     @include('admin.users._nav')
-    <div class="d-flex flex-row mb-3">
-        <a href="{{ route('users.edit',$user) }}" class="btn btn-primary mr-1">Edit</a>
 
-        <form method="POST" action="{{ route('users.update',$user) }}" class="mr-1">
+    <div class="d-flex flex-row mb-3">
+        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary mr-1">Edit</a>
+
+
+        <form method="POST" action="{{ route('users.destroy', $user) }}" class="mr-1">
             @csrf
             @method('DELETE')
             <button class="btn btn-danger">Delete</button>
@@ -23,38 +25,19 @@
         <tr>
             <th>Email</th><td>{{ $user->email }}</td>
         </tr>
+
         <tr>
-            <th>ID</th><td>{{ $user->role }}</td>
+            <th>Role</th>
+            <td>
+                @if ($user->isAdmin())
+                    <span class="badge badge-danger">Admin</span>
+                @else
+                    <span class="badge badge-secondary">User</span>
+                @endif
+            </td>
         </tr>
+
         </tbody>
     </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @endsection

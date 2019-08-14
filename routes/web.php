@@ -30,4 +30,5 @@ Route::middleware('auth','can:admin-panel')->group(
 
    Route::resource('/admin/users','Admin\UserController');
          Route::resource('/admin/regions','Admin\RegionController');
+         Route::resource('/admin/adverts/categories','Admin\Adverts\CategoryController');
 });

@@ -31,5 +31,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-adverts-categories', function (User $user) {
             return $user->isAdmin();
         });
+        Gate::define('manage-users', function (User $user) {
+            return $user->isAdmin() ;
+        });
+        Gate::define('manage-regions', function (User $user) {
+            return $user->isAdmin();
+        });
     }
 }

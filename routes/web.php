@@ -31,4 +31,12 @@ Route::middleware('auth','can:admin-panel')->group(
    Route::resource('/admin/users','Admin\UserController');
          Route::resource('/admin/regions','Admin\RegionController');
          Route::resource('/admin/adverts/categories','Admin\Adverts\CategoryController');
+
+         Route::group(['prefix' => 'categories/{category}', 'as' => 'categories.'], function () {
+             Route::post('/admin/adverts/categories/first', 'Admin\Adverts\CategoryController@first')->name('first');
+             Route::post('/admin/adverts/categories/up', 'Admin\Adverts\CategoryController@up')->name('up');
+             Route::post('/admin/adverts/categories/down', 'Admin\Adverts\CategoryController@down')->name('down');
+             Route::post('/admin/adverts/categories/last', 'Admin\Adverts\CategoryController@last')->name('last');
+            // Route::resource('attributes', 'AttributeController')->except('index');
+         });
 });

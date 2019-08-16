@@ -22,7 +22,26 @@
                     <a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
                 </td>
                 <td>{{ $category->slug }}</td>
-
+                <td>
+                    <div class="d-flex flex-row">
+                        <form method="POST" action="{{ route('categories.first', $category) }}" class="mr-1">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-primary"><span class="fas fa-angle-double-up"></span></button>
+                        </form>
+                        <form method="POST" action="{{ route('categories.up', $category) }}" class="mr-1">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-primary"><span class="fas fa-angle-up"></span></button>
+                        </form>
+                        <form method="POST" action="{{ route('categories.down', $category) }}" class="mr-1">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-primary"><span class="fa fa-angle-down"></span></button>
+                        </form>
+                        <form method="POST" action="{{ route('categories.last', $category) }}" class="mr-1">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-primary"><span class="fa fa-angle-double-down"></span></button>
+                        </form>
+                    </div>
+                </td>
         @endforeach
 
         </tbody>

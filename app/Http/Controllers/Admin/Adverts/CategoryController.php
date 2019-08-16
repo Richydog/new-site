@@ -40,7 +40,7 @@ class CategoryController extends Controller
             'parent_id' => $request['parent'],
         ]);
 
-        return redirect()->route('admin.adverts.categories.show', $category);
+        return redirect()->route('categories.show', $category);
     }
 
     public function show(Category $category)
@@ -72,30 +72,30 @@ class CategoryController extends Controller
             'parent_id' => $request['parent'],
         ]);
 
-        return redirect()->route('admin.adverts.categories.show', $category);
+        return redirect()->route('categories.show', $category);
     }
 
- /*   public function first(Category $category)
+    public function first(Category $category)
     {
         if ($first = $category->siblings()->defaultOrder()->first()) {
             $category->insertBeforeNode($first);
         }
 
-        return redirect()->route('admin.adverts.categories.index');
+        return redirect()->route('categories.index');
     }
 
     public function up(Category $category)
     {
         $category->up();
 
-        return redirect()->route('admin.adverts.categories.index');
+        return redirect()->route('categories.index');
     }
 
     public function down(Category $category)
     {
         $category->down();
 
-        return redirect()->route('admin.adverts.categories.index');
+        return redirect()->route('categories.index');
     }
 
     public function last(Category $category)
@@ -104,13 +104,13 @@ class CategoryController extends Controller
             $category->insertAfterNode($last);
         }
 
-        return redirect()->route('admin.adverts.categories.index');
+        return redirect()->route('categories.index');
     }
-*/
+
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect()->route('admin.adverts.categories.index');
+        return redirect()->route('categories.index');
     }
 }

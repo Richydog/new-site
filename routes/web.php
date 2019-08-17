@@ -37,6 +37,6 @@ Route::middleware('auth','can:admin-panel')->group(
              Route::post('/admin/adverts/categories/up', 'Admin\Adverts\CategoryController@up')->name('up');
              Route::post('/admin/adverts/categories/down', 'Admin\Adverts\CategoryController@down')->name('down');
              Route::post('/admin/adverts/categories/last', 'Admin\Adverts\CategoryController@last')->name('last');
-            // Route::resource('attributes', 'AttributeController')->except('index');
+             Route::resource('attributes', 'Admin\Adverts\AttributeController')->except('index');
          });
 });

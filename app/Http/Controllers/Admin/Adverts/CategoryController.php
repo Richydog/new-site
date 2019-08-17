@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Adverts;
+
 use App\Model\Adverts\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -40,15 +41,15 @@ class CategoryController extends Controller
             'parent_id' => $request['parent'],
         ]);
 
-        return redirect()->route('categories.show', $category);
+        return redirect()->route('admin.adverts.categories.show', $category);
     }
 
     public function show(Category $category)
     {
-      /*  $parentAttributes = $category->parentAttributes();
+        $parentAttributes = $category->parentAttributes();
         $attributes = $category->attributes()->orderBy('sort')->get();
-*/
-        return view('admin.adverts.categories.show', compact('category'));
+
+        return view('admin.adverts.categories.show', compact('category', 'attributes', 'parentAttributes'));
     }
 
     public function edit(Category $category)
@@ -72,7 +73,7 @@ class CategoryController extends Controller
             'parent_id' => $request['parent'],
         ]);
 
-        return redirect()->route('categories.show', $category);
+        return redirect()->route('admin.adverts.categories.show', $category);
     }
 
     public function first(Category $category)
@@ -81,21 +82,21 @@ class CategoryController extends Controller
             $category->insertBeforeNode($first);
         }
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.adverts.categories.index');
     }
 
     public function up(Category $category)
     {
         $category->up();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.adverts.categories.index');
     }
 
     public function down(Category $category)
     {
         $category->down();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.adverts.categories.index');
     }
 
     public function last(Category $category)
@@ -104,13 +105,13 @@ class CategoryController extends Controller
             $category->insertAfterNode($last);
         }
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.adverts.categories.index');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.adverts.categories.index');
     }
 }

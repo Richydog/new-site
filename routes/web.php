@@ -23,6 +23,13 @@ Route::get('profile', function () {
 })->middleware('verified');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['prefix' => 'profily', 'as' => 'profily'], function () {
+    Route::get('/', 'Cabinet\ProfileController@index')->name('home');
+    Route::get('/edit', 'Cabinet\ProfileController@edit')->name('edit');
+    Route::put('/update', 'Cabinet\ProfileController@update')->name('update');
+
+});
+
 Route::middleware('auth','can:admin-panel')->group(
      function () {
 

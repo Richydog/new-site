@@ -66,6 +66,7 @@
                                     <a class="dropdown-item" href="{{ route('users.index') }}">User</a>
                                     <a class="dropdown-item" href="{{ route('users.create') }}">Create</a>
                                     @endcan
+                                        <a class="dropdown-item" href="{{ route('profilyhome') }}">Profile</a>
                                     <a class="dropdown-item" href="{{ route('home') }}">Cabinet</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
 

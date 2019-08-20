@@ -16,6 +16,14 @@
         </div>
 
         <div class="form-group">
+            <label for="last-name" class="col-form-label">Last_Name</label>
+            <input id="last_name" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name" value="{{ old('last_name', $user->last_name) }}" required>
+            @if ($errors->has('last_name'))
+                <span class="invalid-feedback"><strong>{{ $errors->first('last_name') }}</strong></span>
+            @endif
+        </div>
+
+        <div class="form-group">
             <label for="email" class="col-form-label">E-Mail Address</label>
             <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email',$user->email) }}" required>
             @if ($errors->has('email'))

@@ -23,6 +23,9 @@
             <th>Name</th><td>{{ $user->name }}</td>
         </tr>
         <tr>
+            <th>Last_Name</th><td>{{ $user->last_name }}</td>
+        </tr>
+        <tr>
             <th>Email</th><td>{{ $user->email }}</td>
         </tr>
 

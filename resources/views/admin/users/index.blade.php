@@ -17,12 +17,14 @@
                            <input id="id" class="form-control" name="id" value="{{ request('id') }}">
                        </div>
                    </div>
-                   <div class="col-sm-2">
-                       <div class="form-group">
-                           <label for="name" class="col-form-label">Name</label>
-                           <input id="name" class="form-control" name="name" value="{{ request('name') }}">
+
+                       <div class="col-sm-2">
+                           <div class="form-group">
+                               <label for="name" class="col-form-label">Name</label>
+                               <input id="name" class="form-control" name="name" value="{{ request('name') }}">
+                           </div>
                        </div>
-                   </div>
+
                    <div class="col-sm-3">
                        <div class="form-group">
                            <label for="email" class="col-form-label">Email</label>
@@ -58,6 +60,7 @@
         <tr>
             <th>ID</th>
             <th>Имя</th>
+            <th>Фамилия</th>
             <th>E-mail</th>
             <th>Role</th>
         </tr>
@@ -68,6 +71,7 @@
             <tr>
                 <td>{{$users->id}}</td>
                 <td><a href="{{route('users.show',$users)}}"> {{$users->name}}</a></td>
+                <td>{{$users->last_name}}</td>
                 <td>{{$users->email}}</td>
                 <td>
                     @if ($users->isAdmin())

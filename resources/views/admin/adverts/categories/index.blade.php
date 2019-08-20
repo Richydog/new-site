@@ -38,7 +38,7 @@
                         </form>
                         <form method="POST" action="{{ route('categories.last', $category) }}" class="mr-1">
                             @csrf
-                            <button class="btn btn-sm btn-outline-primary"><span class="fa fa-angle-double-down"></span></span></button>
+                            <button class="btn btn-sm btn-outline-primary"><span class="fa fa-angle-double-down"></span></button>
                         </form>
                     </div>
                 </td>

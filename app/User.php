@@ -16,7 +16,7 @@ class User extends Authenticatable  implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role'
+        'name', 'email', 'password','role','last_name'
     ];
     public const ROLE_USER = 'user';
    // public const ROLE_MODERATOR = 'moderator';
@@ -50,5 +50,9 @@ class User extends Authenticatable  implements MustVerifyEmail
     }
     public function isAdmin():bool {
         return $this->role===self::ROLE_ADMIN;
+    }
+    public function Verifyied():void
+    {
+       $this->update(['email_verified_at'=>now()]);
     }
 }

@@ -4,8 +4,8 @@
     @include('admin.adverts.categories._nav')
 
     <div class="d-flex flex-row mb-3">
-        <a href="{{ route('admin.adverts.categories.attributes.edit', [$category, $attribute]) }}" class="btn btn-primary mr-1">Edit</a>
-        <form method="POST" action="{{ route('admin.adverts.categories.attributes.destroy', [$category, $attribute]) }}" class="mr-1">
+        <a href="{{ route('categories.attributes.edit', [$category, $attribute]) }}" class="btn btn-primary mr-1">Edit</a>
+        <form method="POST" action="{{ route('categories.attributes.destroy', [$category, $attribute]) }}" class="mr-1">
             @csrf
             @method('DELETE')
             <button class="btn btn-danger">Delete</button>
@@ -24,6 +24,34 @@
             <th>Slug</th><td>{{ $category->slug }}</td>
         </tr>
         <tbody>
+        </tbody>
+    </table>
+    <table class="table table-bordered">
+
+        <thead>
+        <tr><th colspan="4">Attributes</th></tr>
+        <tr>
+            <th>Sort</th>
+            <th>Name</th>
+            <th>Slug</th>
+            <th>Required</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+
+
+            <tr>
+                <td>{{ $attribute->sort }}</td>
+                <td>{{ $attribute->name }}</td>
+                <td>{{ $attribute->type }}</td>
+                <td>{{ $attribute->required ? 'Yes' : '' }}</td>
+            </tr>
+
+
+
+
         </tbody>
     </table>
 @endsection

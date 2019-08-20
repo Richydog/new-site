@@ -23,6 +23,9 @@ class UserController extends Controller
         if (!empty($value = $request->get('name'))) {
             $query->where('name', 'like', '%' . $value . '%');
         }
+        if (!empty($value = $request->get('last_name'))) {
+            $query->where('name', 'like', '%' . $value . '%');
+        }
 
         if (!empty($value = $request->get('email'))) {
             $query->where('email', 'like', '%' . $value . '%');
@@ -51,11 +54,13 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'role' => [ 'string', 'max:16'],
         ]);
         $user = User::create(array(
             'name' => $request['name'],
+            'last_name' => $request['last_name'],
             'email' => $request['email'],
             'role' => $request['role'],
         ));
@@ -84,6 +89,7 @@ class UserController extends Controller
     {
         $data = $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users,id,' . $user->id,
             'role' => [ 'string', 'max:16'],
         ]);

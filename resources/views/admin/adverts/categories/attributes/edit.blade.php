@@ -3,7 +3,7 @@
 @section('content')
     @include('admin.adverts.categories._nav')
 
-    <form method="POST" action="{{ route('admin.adverts.categories.attributes.update', [$category, $attribute]) }}">
+    <form method="POST" action="{{ route('categories.attributes.update', [$category, $attribute]) }}">
         @csrf
         @method('PUT')
 
@@ -47,7 +47,7 @@
             <input type="hidden" name="required" value="0">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" name="required" {{ old('required', $attribute->required) ? 'checked' : '' }}> Rquired
+                    <input type="checkbox" name="required" {{ old('required', $attribute->required) ? 'checked' : '' }}> Required
                 </label>
             </div>
             @if ($errors->has('required'))

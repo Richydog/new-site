@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cabinet;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Illuminate\Support\Facades\Auth;
@@ -22,12 +23,14 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-       $this->validate($request,[
-       'name' => 'required'| 'string'| 'max:255',
-            'last_name' => 'required'| 'string'| 'max:255'
-           ]);
-       $user=\Auth::user();
-       $user->update($request->only('name','last_name'));
-        return redirect()->route('profilyhome');
+        $data=$this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],]);
+
+
+$user=Auth::user();
+       $user->update($data);
+        return redirect()->route('profilyhome',compact('user'));
+      // return view('cabinet.profile.home');
     }
 }

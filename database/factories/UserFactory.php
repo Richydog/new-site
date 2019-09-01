@@ -4,7 +4,7 @@
 use App\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
-
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -17,13 +17,18 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $phoneActive=$faker->boolean;
     return [
         'name' => $faker->name,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
+        'phone' => $faker->unique()->phoneNumber,
+        'phone_verified' => $phoneActive,
         'email_verified_at' => now(),
         'role'=> 'user',
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
+        'phone_verify_token' => $phoneActive ? null : Str::uuid(),
+        'phone_verify_token_expire' => $phoneActive ? null : Carbon::now()->addSeconds(300),
     ];
 });

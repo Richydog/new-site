@@ -25,11 +25,20 @@ class ProfileController extends Controller
     {
         $data=$this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],]);
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone'=> ['required', 'string', 'max:255','regex:/^\d+$/s'],
+            ]);
 
 
 $user=Auth::user();
+
+        $oldPhone=$user->phone;
        $user->update($data);
+       if ($user->phone !==$oldPhone){
+           $user->unverifyPhone();
+       }
+
+
         return redirect()->route('profilyhome',compact('user'));
       // return view('cabinet.profile.home');
     }

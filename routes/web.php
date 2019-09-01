@@ -23,12 +23,14 @@ Route::get('profile', function () {
 })->middleware('verified');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'profily', 'as' => 'profily'], function () {
+Route::group(['prefix' => 'profily', 'as' => 'profily','middleware'=>['auth']], function () {
     Route::get('/', 'Cabinet\ProfileController@index')->name('home');
     Route::get('/edit', 'Cabinet\ProfileController@edit')->name('edit');
     Route::put('/update', 'Cabinet\ProfileController@update')->name('update');
-
-});
+    Route::post('/phone', 'Cabinet\PhoneController@request');
+    Route::get('/phone', 'Cabinet\PhoneController@form')->name('phone');
+    Route::put('/phone', 'Cabinet\PhoneController@verify')->name('phone.verify');
+ });
 
 Route::middleware('auth','can:admin-panel')->group(
      function () {

@@ -29,6 +29,8 @@
             @if ($errors->has('phone'))
                 <span class="invalid-feedback"><strong>{{ $errors->first('phone') }}</strong></span>
             @endif
+
+
         </div>
 
         <div class="form-group">

@@ -62,6 +62,7 @@
             <th>Имя</th>
             <th>Фамилия</th>
             <th>E-mail</th>
+            <th>Phone</th>
             <th>Role</th>
         </tr>
         </thead>
@@ -73,6 +74,7 @@
                 <td><a href="{{route('users.show',$users)}}"> {{$users->name}}</a></td>
                 <td>{{$users->last_name}}</td>
                 <td>{{$users->email}}</td>
+                <td>{{$users->phone}}</td>
                 <td>
                     @if ($users->isAdmin())
                         <span class="badge badge-danger">Admin</span>

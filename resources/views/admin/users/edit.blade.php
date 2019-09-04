@@ -30,6 +30,15 @@
                 <span class="invalid-feedback"><strong>{{ $errors->first('email') }}</strong></span>
             @endif
         </div>
+
+        <div class="form-group">
+            <label for="tel" class="col-form-label">Phone</label>
+            <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone',$user->phone) }}" required>
+            @if ($errors->has('phone'))
+                <span class="invalid-feedback"><strong>{{ $errors->first('phone') }}</strong></span>
+            @endif
+        </div>
+
         <div class="form-group">
             <label for="role" class="col-form-label">Role</label>
             <select id="role" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="role">

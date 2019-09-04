@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
      //   $user = User::orderBy('id', 'desc')->paginate(10);
-        $query = User::orderByDesc('id');
+        $query = User::orderBy('id');
 
         if (!empty($value = $request->get('id'))) {
             $query->where('id', $value);
@@ -56,12 +56,14 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone'=> ['required', 'string', 'max:255','regex:/^\d+$/s'],
             'role' => [ 'string', 'max:16'],
         ]);
         $user = User::create(array(
             'name' => $request['name'],
             'last_name' => $request['last_name'],
             'email' => $request['email'],
+            'phone'=>$request['phone'],
             'role' => $request['role'],
         ));
         return redirect()->route('users.show', $user);
@@ -91,6 +93,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users,id,' . $user->id,
+            'phone'=> ['required', 'string', 'max:255','regex:/^\d+$/s'],
             'role' => [ 'string', 'max:16'],
         ]);
         $user->update($data);

@@ -30,6 +30,9 @@
         </tr>
 
         <tr>
+            <th>Phone</th><td>{{ $user->phone }}</td>
+        </tr>
+        <tr>
             <th>Role</th>
             <td>
                 @if ($user->isAdmin())

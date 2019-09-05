@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Cabinet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Session;
 class AdvertsController extends Controller
 {
     /**
@@ -16,6 +16,7 @@ class AdvertsController extends Controller
     public function __construct()
     {
         $this->middleware('dopusk');
+
     }
     public function index()
     {

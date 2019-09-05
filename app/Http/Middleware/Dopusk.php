@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Closure;
-
+use Illuminate\Contracts\Session;
 class Dopusk
 {
     /**
@@ -18,7 +18,8 @@ class Dopusk
         if (empty($user->name)||empty($user->last_name)||!$user->isPhoneVerified()){
             return redirect()
                 ->route('profilyhome')
-                ->with('error','Please fill your profile and verify your phone');
+                ->with('warning','Please fill your profile and verify your phone');
+
         }
 
         return $next($request);

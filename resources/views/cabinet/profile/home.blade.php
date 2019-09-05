@@ -2,7 +2,7 @@
 
 @section('content')
     @include('cabinet.profile._nav')
-
+    @include ('partials.messages')
     <div class="mb-3">
         <a href="{{ route('profilyedit') }}" class="btn btn-primary">Edit</a>
     </div>

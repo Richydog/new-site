@@ -36,10 +36,7 @@ class UserController extends Controller
         }
 
         $user = $query->paginate(10);
-        $roles=[
-            User::ROLE_ADMIN =>'admin',
-            User::ROLE_USER =>'user'
-        ];
+        $roles=User::rolesList();
         return view('admin.users.index', compact('user','roles'));
     }
 
@@ -79,10 +76,7 @@ class UserController extends Controller
     public function edit(User $user)
 
     {
-        $roles=[
-            User::ROLE_ADMIN =>'admin',
-            User::ROLE_USER =>'user'
-        ];
+        $roles=User::rolesList();
         return view('admin.users.edit', compact('user','roles'));
     }
 

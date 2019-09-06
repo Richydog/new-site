@@ -32,6 +32,8 @@ Route::group(['prefix' => 'profily', 'as' => 'profily','middleware'=>['auth']], 
     Route::put('/phone', 'Cabinet\PhoneController@verify')->name('phone.verify');
  });
 
+
+
 Route::middleware('auth','can:admin-panel')->group(
      function () {
 

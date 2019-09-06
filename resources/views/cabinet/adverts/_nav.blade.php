@@ -2,5 +2,7 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Dashboard</a></li>
     <li class="nav-item"><a class="nav-link active" href="{{ route('adverts.index') }}">Adverts</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('profilyhome') }}">Profile</a></li>
-   </li>
+
 </ul>
+
+<div class="region-selector" data-selected="{{ json_encode((array)old('regions')) }}" data-source="{{ route('regions.index') }}"></div>

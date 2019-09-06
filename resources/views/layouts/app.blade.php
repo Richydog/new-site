@@ -16,7 +16,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <link href="public\fontawesome\css\all.css" rel="stylesheet">
+    <link href="public/fonts/fontawesome/css/all.css" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -57,7 +57,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                 <h5>Личный кабинет</h5>   {{  Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -87,9 +87,22 @@
         </nav>
 
         <main class="py-4">
+            @include('layouts.partials.flash')
             @yield('content')
         </main>
     </div>
 </div>
+<footer>
+    <div class="container">
+        <div class="border-top pt-3">
+            <p>&copy; {{ date('Y') }} - Adverts</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+
+<script src="{{ asset('public/js/app.js') }}"></script>
+
 </body>
 </html>

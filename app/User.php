@@ -68,32 +68,45 @@ class User extends Authenticatable  implements MustVerifyEmail
     
     ];
 
-    public function changeRole($role):void {
-        if (!\in_array($role,[ self::ROLE_USER, self::ROLE_ADMIN])) {
-            throw new \InvalidArgumentException('Undefined role "' . $role . '"');
-        }
-        if ($this->role === $role) {
-            throw new \DomainException('Role is already assigned.');
-        }
-        $this->update(['role' => $role]);
-    }
-    public function isAdmin():bool {
-        return $this->role===self::ROLE_ADMIN;
+    public static function rolesList(): array
+    {
+        return [
+            self::ROLE_USER => 'User',
+            self::ROLE_MODERATOR => 'Moderator',
+            self::ROLE_ADMIN => 'Admin',
+        ];
     }
 
-    public function unverifyPhone(): void
+    public static function register(string $name, string $email, string $password): self
     {
-        $this->phone_verified = false;
-        $this->phone_verify_token = null;
-        $this->phone_verify_token_expire = null;
-      //  $this->phone_auth = false;
-        $this->saveOrFail();
+        return static::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => bcrypt($password),
+            'verify_token' => Str::uuid(),
+            'role' => self::ROLE_USER,
+
+        ]);
     }
-    public function Verifyied():void
+
+    public static function registerByNetwork(string $network, string $identity): self
     {
-       $this->update(['email_verified_at'=>now()]);
+        $user = static::create([
+            'name' => $identity,
+            'email' => null,
+            'password' => null,
+            'verify_token' => null,
+            'role' => self::ROLE_USER,
+
+        ]);
+        $user->networks()->create([
+            'network' => $network,
+            'identity' => $identity,
+        ]);
+        return $user;
     }
-       public static function new($name, $email): self
+
+    public static function new($name, $email): self
     {
         return static::create([
             'name' => $name,
@@ -104,6 +117,27 @@ class User extends Authenticatable  implements MustVerifyEmail
         ]);
     }
 
+
+
+    public function changeRole($role): void
+    {
+        if (!array_key_exists($role, self::rolesList())) {
+            throw new \InvalidArgumentException('Undefined role "' . $role . '"');
+        }
+        if ($this->role === $role) {
+            throw new \DomainException('Role is already assigned.');
+        }
+        $this->update(['role' => $role]);
+    }
+
+    public function unverifyPhone(): void
+    {
+        $this->phone_verified = false;
+        $this->phone_verify_token = null;
+        $this->phone_verify_token_expire = null;
+        $this->phone_auth = false;
+        $this->saveOrFail();
+    }
 
     public function requestPhoneVerification(Carbon $now): string
     {
@@ -121,7 +155,7 @@ class User extends Authenticatable  implements MustVerifyEmail
         return $this->phone_verify_token;
     }
 
-    public function verifyPhone($token,Carbon $now): void
+    public function verifyPhone($token, Carbon $now): void
     {
         if ($token !== $this->phone_verify_token) {
             throw new \DomainException('Incorrect verify token.');
@@ -134,7 +168,51 @@ class User extends Authenticatable  implements MustVerifyEmail
         $this->phone_verify_token_expire = null;
         $this->saveOrFail();
     }
-     public function isPhoneVerified(): bool
+
+    public function enablePhoneAuth(): void
+    {
+        if (!empty($this->phone) && !$this->isPhoneVerified()) {
+            throw new \DomainException('Phone number is empty.');
+        }
+        $this->phone_auth = true;
+        $this->saveOrFail();
+    }
+
+    public function disablePhoneAuth(): void
+    {
+        $this->phone_auth = false;
+        $this->saveOrFail();
+    }
+
+    public function addToFavorites($id): void
+    {
+        if ($this->hasInFavorites($id)) {
+            throw new \DomainException('This advert is already added to favorites.');
+        }
+        $this->favorites()->attach($id);
+    }
+
+    public function removeFromFavorites($id): void
+    {
+        $this->favorites()->detach($id);
+    }
+
+    public function hasInFavorites($id): bool
+    {
+        return $this->favorites()->where('id', $id)->exists();
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->role === self::ROLE_MODERATOR;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isPhoneVerified(): bool
     {
         return $this->phone_verified;
     }
@@ -144,4 +222,30 @@ class User extends Authenticatable  implements MustVerifyEmail
         return (bool)$this->phone_auth;
     }
 
+    public function hasFilledProfile(): bool
+    {
+        return !empty($this->name) && !empty($this->last_name) && $this->isPhoneVerified();
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Advert::class, 'advert_favorites', 'user_id', 'advert_id');
+    }
+
+    public function networks()
+    {
+        return $this->hasMany(Network::class, 'user_id', 'id');
+    }
+
+    public function scopeByNetwork(Builder $query, string $network, string $identity): Builder
+    {
+        return $query->whereHas('networks', function(Builder $query) use ($network, $identity) {
+            $query->where('network', $network)->where('identity', $identity);
+        });
+    }
+
+    public function findForPassport($identifier)
+    {
+        return self::where('email', $identifier)->where('status', self::STATUS_ACTIVE)->first();
+    }
 }

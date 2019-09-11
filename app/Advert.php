@@ -8,6 +8,8 @@ use App\Model\Adverts\Category;
 use App\User;
 use App\Model\Region;
 use Illuminate\Database\Eloquent\Builder;
+use App\Model\Adverts\Advert\Value;
+use App\Model\Adverts\Advert\Photo;
 /**
  * @property int $id
  * @property int $user_id
@@ -47,5 +49,51 @@ class Advert extends Model
         'published_at' => 'datetime',
         'expires_at' => 'datetime',
     ];
+    public function isDraft(): bool
+    {
+        return $this->status === self::STATUS_DRAFT;
+    }
 
+    public function isOnModeration(): bool
+    {
+        return $this->status === self::STATUS_MODERATION;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->status === self::STATUS_CLOSED;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'region_id', 'id');
+    }
+    public function values()
+    {
+        return $this->hasMany(Value::class, 'advert_id', 'id');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, 'advert_id', 'id');
+    }
+    public function scopeForUser(Builder $query, User $user)
+    {
+        return $query->where('user_id', $user->id);
+    }
 }

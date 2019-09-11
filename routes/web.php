@@ -33,6 +33,18 @@ Route::group(['prefix' => 'profily', 'as' => 'profily','middleware'=>['auth']], 
  });
 
 
+Route::group([
+    'prefix' => 'adverts',
+    'as' => 'adverts.',
+    'namespace' => 'Cabinet',
+    'middleware' => ['dopusk'],
+], function () {
+    Route::get('/', 'AdvertsController@index')->name('index');
+    Route::get('/create', 'CreateController@category')->name('create');
+    Route::get('/create/region/{category}/{region?}', 'CreateController@region')->name('create.region');
+    Route::get('/create/advert/{category}/{region?}', 'CreateController@advert')->name('create.advert');
+    Route::post('/create/advert/{category}/{region?}', 'CreateController@store')->name('create.advert.store');
+});
 
 Route::middleware('auth','can:admin-panel')->group(
      function () {

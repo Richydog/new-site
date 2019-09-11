@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
+use App\Model\Region;
+use  App\Model\Adverts\Category;
 class HomeController extends Controller
 {
     /**
@@ -30,7 +32,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-\flash('info','go home');
-        return view('home');
+        $regions = Region::roots()->orderBy('name')->getModels();
+
+        $categories = Category::whereIsRoot()->defaultOrder()->getModels();
+
+        return view('home', compact('regions', 'categories'));
+
     }
 }

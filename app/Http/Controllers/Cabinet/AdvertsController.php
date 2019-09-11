@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use App\Advert;
 class AdvertsController extends Controller
 {
     /**
@@ -20,9 +21,11 @@ class AdvertsController extends Controller
     }
     public function index()
     {
+        $adverts = Advert::forUser(Auth::user())->orderByDesc('id')->paginate(20);
+
+        return view('cabinet.adverts.index', compact('adverts'));
 
 
-        return view('cabinet.adverts.index');
     }
 
     /**

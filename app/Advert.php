@@ -54,6 +54,25 @@ class Advert extends Model
         return $this->status === self::STATUS_DRAFT;
     }
 
+    public function getValue($id)
+    {
+        foreach ($this->values as $value) {
+            if ($value->attribute_id === $id) {
+                return $value->value;
+            }
+        }
+        return null;
+    }
+    public static function statusesList(): array
+    {
+        return [
+            self::STATUS_DRAFT => 'Draft',
+            self::STATUS_MODERATION => 'On Moderation',
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_CLOSED => 'Closed',
+        ];
+    }
+
     public function isOnModeration(): bool
     {
         return $this->status === self::STATUS_MODERATION;
@@ -95,5 +114,77 @@ class Advert extends Model
     public function scopeForUser(Builder $query, User $user)
     {
         return $query->where('user_id', $user->id);
+    }
+    public function sendToModeration(): void
+    {
+        if (!$this->isDraft()) {
+            throw new \DomainException('Advert is not draft.');
+        }
+      /*  if (!\count($this->photos)) {
+            throw new \DomainException('Upload photos.');
+        }*/
+        $this->update([
+            'status' => self::STATUS_MODERATION,
+        ]);
+    }
+    public function moderate(Carbon $date): void
+    {
+        if ($this->status !== self::STATUS_MODERATION) {
+            throw new \DomainException('Advert is not sent to moderation.');
+        }
+        $this->update([
+            'published_at' => $date,
+            'expires_at' => $date->copy()->addDays(15),
+            'status' => self::STATUS_ACTIVE,
+        ]);
+    }
+    public function reject($reason): void
+    {
+        $this->update([
+            'status' => self::STATUS_DRAFT,
+            'reject_reason' => $reason,
+        ]);
+    }
+
+    public function expire(): void
+    {
+        $this->update([
+            'status' => self::STATUS_CLOSED,
+        ]);
+    }
+
+    public function close(): void
+    {
+        $this->update([
+            'status' => self::STATUS_CLOSED,
+        ]);
+    }
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopeForCategory(Builder $query, Category $category)
+    {
+        return $query->whereIn('category_id', array_merge(
+            [$category->id],
+            $category->descendants()->pluck('id')->toArray()
+        ));
+    }
+
+    public function scopeForRegion(Builder $query, Region $region)
+    {
+        $ids = [$region->id];
+        $childrenIds = $ids;
+        while ($childrenIds = Region::where(['parent_id' => $childrenIds])->pluck('id')->toArray()) {
+            $ids = array_merge($ids, $childrenIds);
+        }
+        return $query->whereIn('region_id', $ids);
+    }
+
+    public function scopeFavoredByUser(Builder $query, User $user)
+    {
+        return $query->whereHas('favorites', function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
     }
 }

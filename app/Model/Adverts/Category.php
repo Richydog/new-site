@@ -23,10 +23,10 @@ class Category extends Model
     public $timestamps = false;
     protected $fillable = ['name', 'slug', 'parent_id'];
 
-  /*  public function getPath(): string
+    public function getPath(): string
     {
         return implode('/', array_merge($this->ancestors()->defaultOrder()->pluck('slug')->toArray(), [$this->slug]));
-    } */
+    }
 
     public function parentAttributes(): array
     {

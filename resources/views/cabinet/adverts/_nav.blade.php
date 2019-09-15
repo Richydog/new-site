@@ -5,4 +5,3 @@
 
 </ul>
 
-<div class="region-selector" data-selected="{{ json_encode((array)old('regions')) }}" data-source="{{ route('regions.index') }}"></div>

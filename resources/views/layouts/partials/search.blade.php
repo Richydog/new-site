@@ -53,7 +53,7 @@
                 </form>
             </div>
             <div class="col-md-3" style="text-align: right">
-                <p><a href="{{ route('cabinet.adverts.create') }}" class="btn btn-success"><span class="fa fa-plus"></span> Add New Advertisement</a></p>
+                <p><a href="{{ route('adverts.create') }}" class="btn btn-success"><span class="fa fa-plus"></span> Add New Advertisement</a></p>
             </div>
         </div>
     </div>

@@ -57,7 +57,7 @@ class AdvertsController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

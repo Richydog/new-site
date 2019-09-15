@@ -10,6 +10,9 @@ use App\Http\Requests\Adverts\CreateRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use  App\Http\Requests\Adverts\PhotosRequest;
+use App\Http\Requests\Adverts\RejectRequest;
+use App\Http\Requests\Adverts\AttributesRequest;
+use App\Http\Requests\Adverts\EditRequest;
 class AdvertService
 {
     public function create($userId, $categoryId, $regionId, CreateRequest $request): Advert
@@ -65,8 +68,70 @@ class AdvertService
             $advert->update();
         });
     }
+
+    public function edit($id, EditRequest $request): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->update($request->only([
+            'title',
+            'content',
+            'price',
+            'address',
+        ]));
+    }
+
     private function getAdvert($id): Advert
     {
         return Advert::findOrFail($id);
+    }
+
+    public function sendToModeration($id): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->sendToModeration();
+    }
+    public function moderate($id): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->moderate(Carbon::now());
+       // event(new ModerationPassed($advert));
+    }
+
+    public function reject($id, RejectRequest $request): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->reject($request['reason']);
+    }
+    public function editAttributes($id, AttributesRequest $request): void
+    {
+        $advert = $this->getAdvert($id);
+
+        DB::transaction(function () use ($request, $advert) {
+            $advert->values()->delete();
+            foreach ($advert->category->allAttributes() as $attribute) {
+                $value = $request['attributes'][$attribute->id] ?? null;
+                if (!empty($value)) {
+                    $advert->values()->create([
+                        'attribute_id' => $attribute->id,
+                        'value' => $value,
+                    ]);
+                }
+            }
+            $advert->update();
+        });
+    }
+    public function remove($id): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->delete();
+    }
+    public function expire(Advert $advert): void
+    {
+        $advert->expire();
+    }
+    public function close($id): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->close();
     }
 }

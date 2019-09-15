@@ -8,7 +8,9 @@
         </li>
         <li class="nav-item"><a class="nav-link " href="{{route('users.index')}}">User</a>
         </li>
-
+        </li>
+        <li class="nav-item"><a class="nav-link " href="{{route('adverts.index')}}">Advert</a>
+        </li>
         <li class="nav-item"><a class="nav-link   " href="{{route('regions.index')}}">Region</a>
         </li>
         <li class="nav-item"><a class="nav-link   " href="{{route('categories.index')}}">Category</a>

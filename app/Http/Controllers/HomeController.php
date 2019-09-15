@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 use App\Model\Region;
 use  App\Model\Adverts\Category;
-class HomeController extends Controller
+class
+HomeController extends Controller
 {
     /**
      * Create a new controller instance.

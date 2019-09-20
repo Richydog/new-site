@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Adverts;
 
-use App\Entity\Adverts\Advert\Advert;
+use App\Advert;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Adverts\AttributesRequest;
 use App\Http\Requests\Adverts\EditRequest;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Adverts;
 
-use App\Entity\Adverts\Category;
-use App\Entity\Region;
+use App\Model\Adverts\Category;
+use App\Model\Region;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

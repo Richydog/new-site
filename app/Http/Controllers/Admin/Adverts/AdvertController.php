@@ -19,7 +19,7 @@ class AdvertController extends Controller
     public function __construct(AdvertService $service)
     {
         $this->service = $service;
-        $this->middleware('can:manage-adverts');
+      //  $this->middleware('can:manage-adverts');
     }
 
     public function index(Request $request)
@@ -142,6 +142,6 @@ class AdvertController extends Controller
             return back()->with('error', $e->getMessage());
         }
 
-        return redirect()->route('adverts.index');
+        return redirect()->route('adverts.admin.index');
     }
 }

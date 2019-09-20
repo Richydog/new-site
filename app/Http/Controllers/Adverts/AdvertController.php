@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AdvertController extends Controller
-{
-   /* private $search;
+{/*
+    private $search;
 
     public function __construct(SearchService $search)
     {
@@ -78,8 +78,8 @@ class AdvertController extends Controller
         return $advert->user->phone;
     }*/
 
-   public function index(Region $region,Category $category){
-       $query=Advert::with(['category','region'])->orderByDesc('id');
+   public function index(Region $region=null,Category $category=null){
+       $query=Advert::active()->with(['category','region'])->orderByDesc('id');
 
 
        if ($category){
@@ -97,7 +97,7 @@ class AdvertController extends Controller
 
        $adverts=$query->paginate(20);
 
-           return view('adverts.index',compact('category','region','adverts'));
+           return view('adverts.admin.index',compact('category','region','adverts'));
    }
    public function show(Advert $advert){
 

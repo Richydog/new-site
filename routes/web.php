@@ -42,8 +42,10 @@ Route::group([
 ], function () {
     Route::get('/show/{advert}', 'AdvertController@show')->name('show');
     Route::post('/show/{advert}/phone', 'AdvertController@phone')->name('phone');
-   // Route::post('/show/{advert}/favorites', 'FavoriteController@add')->name('favorites');
-    //Route::delete('/show/{advert}/favorites', 'FavoriteController@remove');
+    Route::get('/all/{category?}', 'AdvertController@index')->name('index.all');
+   // Route::get('/{region?}/{category}', 'AdvertController@index')->name('index');
+    Route::post('/show/{advert}/favorites', 'FavoriteController@add')->name('favorites');
+    Route::delete('/show/{advert}/favorites', 'FavoriteController@remove');
 
    // Route::get('/{adverts_path?}', 'AdvertController@index')->name('index')->where('adverts_path', '.+');
 });
@@ -82,27 +84,39 @@ Route::group([
     Route::get('/create/advert/{category}/{region?}', 'CreateController@advert')->name('create.advert');
     Route::post('/create/advert/{category}/{region?}', 'CreateController@store')->name('create.advert.store');
 
-    Route::get('/{advert}/edit', 'ManageController@editForm')->name('edit');
+    Route::get('/{advert}/edit', 'ManageController@editForm')->name('man.edit');
     Route::put('/{advert}/edit', 'ManageController@edit');
-    Route::get('/{advert}/photos', 'ManageController@photosForm')->name('photos');
+    Route::get('/{advert}/photos', 'ManageController@photosForm')->name('man.photos');
     Route::post('/{advert}/photos', 'ManageController@photos');
-    Route::get('/{advert}/attributes', 'ManageController@attributesForm')->name('attributes');
+    Route::get('/{advert}/attributes', 'ManageController@attributesForm')->name('man.attributes');
     Route::post('/{advert}/attributes', 'ManageController@attributes');
-    Route::post('/{advert}/send', 'ManageController@send')->name('send');
-    Route::post('/{advert}/close', 'ManageController@close')->name('close');
-    Route::delete('/{advert}/destroy', 'ManageController@destroy')->name('destroy');
+    Route::post('/{advert}/send', 'ManageController@send')->name('man.send');
+    Route::post('/{advert}/close', 'ManageController@close')->name('man.close');
+    Route::delete('/{advert}/destroy', 'ManageController@destroy')->name('man.destroy');
 });
 
 Route::group(['prefix' => 'adverts', 'as' => 'adverts.', 'namespace' => 'Admin\Adverts'], function () {
-    Route::get('/', 'AdvertController@index')->name('index');
-    Route::get('/{advert}/edit', 'AdvertController@editForm')->name('edit');
+    Route::get('/', 'AdvertController@index')->name('admin.index');
+    Route::get('/{advert}/edit', 'AdvertController@editForm')->name('admin.edit');
     Route::put('/{advert}/edit', 'AdvertController@edit');
-    Route::get('/{advert}/photos', 'AdvertController@photosForm')->name('photos');
+    Route::get('/{advert}/photos', 'AdvertController@photosForm')->name('admin.photos');
     Route::post('/{advert}/photos', 'AdvertController@photos');
-    Route::get('/{advert}/attributes', 'AdvertController@attributesForm')->name('attributes');
+    Route::get('/{advert}/attributes', 'AdvertController@attributesForm')->name('admin.attributes');
     Route::post('/{advert}/attributes', 'AdvertController@attributes');
-    Route::post('/{advert}/moderate', 'AdvertController@moderate')->name('moderate');
-    Route::get('/{advert}/reject', 'AdvertController@rejectForm')->name('reject');
+    Route::post('/{advert}/moderate', 'AdvertController@moderate')->name('admin.moderate');
+    Route::get('/{advert}/reject', 'AdvertController@rejectForm')->name('admin.reject');
     Route::post('/{advert}/reject', 'AdvertController@reject');
-    Route::delete('/{advert}/destroy', 'AdvertController@destroy')->name('destroy');
+    Route::delete('/{advert}/destroy', 'AdvertController@destroy')->name('admin.destroy');
 });
+
+Route::group(
+    [
+        'prefix' => 'cabinet',
+        'as' => 'cabinet.',
+        'namespace' => 'Cabinet',
+        'middleware' => ['auth'],
+    ],
+    function () {
+        Route::get('favorites', 'FavoriteController@index')->name('favorites.index');
+        Route::delete('favorites/{advert}', 'FavoriteController@remove')->name('favorites.remove');
+    });

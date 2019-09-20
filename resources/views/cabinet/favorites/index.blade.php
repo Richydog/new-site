@@ -1,14 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
-
-    <ul class="nav nav-tabs mb-3">
-        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link active" href="{{ route('adverts.admin.index') }}">Adverts</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('profilyhome') }}">Profile</a></li>
-
-    </ul>
+    @include('cabinet.favorites._nav')
 
     <table class="table table-striped">
         <thead>
@@ -18,7 +11,7 @@
             <th>Title</th>
             <th>Region</th>
             <th>Category</th>
-            <th>Status</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -35,15 +28,11 @@
                 </td>
                 <td>{{ $advert->category->name }}</td>
                 <td>
-                    @if ($advert->isDraft())
-                        <span class="badge badge-secondary">Draft</span>
-                    @elseif ($advert->isOnModeration())
-                        <span class="badge badge-primary">Moderation</span>
-                    @elseif ($advert->isActive())
-                        <span class="badge badge-primary">Active</span>
-                    @elseif ($advert->isClosed())
-                        <span class="badge badge-secondary">Closed</span>
-                    @endif
+                    <form method="POST" action="{{ route('cabinet.favorites.remove', $advert) }}" class="mr-1">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger"><span class="fa fa-remove"></span> Remove</button>
+                    </form>
                 </td>
             </tr>
         @endforeach
@@ -53,6 +42,3 @@
 
     {{ $adverts->links() }}
 @endsection
-
-
-

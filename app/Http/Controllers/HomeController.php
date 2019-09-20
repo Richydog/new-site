@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Advert;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 use App\Model\Region;
@@ -36,8 +37,8 @@ HomeController extends Controller
         $regions = Region::roots()->orderBy('name')->getModels();
 
         $categories = Category::whereIsRoot()->defaultOrder()->getModels();
-
-        return view('home', compact('regions', 'categories'));
+    $adverts=Advert::all();
+        return view('home', compact('regions', 'categories','adverts'));
 
     }
 }

@@ -111,6 +111,11 @@ class Advert extends Model
     {
         return $this->hasMany(Photo::class, 'advert_id', 'id');
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'advert_favorites', 'advert_id', 'user_id');
+    }
     public function scopeForUser(Builder $query, User $user)
     {
         return $query->where('user_id', $user->id);

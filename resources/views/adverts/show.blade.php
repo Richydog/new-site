@@ -15,21 +15,21 @@
 
     @can ('manage-adverts')
         <div class="d-flex flex-row mb-3">
-            <a href="{{ route('admin.adverts.adverts.edit', $advert) }}" class="btn btn-primary mr-1">Edit</a>
-            <a href="{{ route('admin.adverts.adverts.photos', $advert) }}" class="btn btn-primary mr-1">Photos</a>
+            <a href="{{ route('adverts.admin.edit', $advert) }}" class="btn btn-primary mr-1">Edit</a>
+            <a href="{{ route('adverts.admin.photos', $advert) }}" class="btn btn-primary mr-1">Photos</a>
 
             @if ($advert->isOnModeration())
-                <form method="POST" action="{{ route('admin.adverts.adverts.moderate', $advert) }}" class="mr-1">
+                <form method="POST" action="{{ route('adverts.admin.moderate', $advert) }}" class="mr-1">
                     @csrf
                     <button class="btn btn-success">Moderate</button>
                 </form>
             @endif
 
             @if ($advert->isOnModeration() || $advert->isActive())
-                <a href="{{ route('admin.adverts.adverts.reject', $advert) }}" class="btn btn-danger mr-1">Reject</a>
+                <a href="{{ route('adverts.admin.reject', $advert) }}" class="btn btn-danger mr-1">Reject</a>
             @endif
 
-            <form method="POST" action="{{ route('admin.adverts.adverts.destroy', $advert) }}" class="mr-1">
+            <form method="POST" action="{{ route('adverts.admin.destroy', $advert) }}" class="mr-1">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger">Delete</button>
@@ -39,23 +39,23 @@
 
     @can ('manage-own-advert', $advert)
             <div class="d-flex flex-row mb-3">
-                <a href="{{ route('cabinet.adverts.edit', $advert) }}" class="btn btn-primary mr-1">Edit</a>
-                <a href="{{ route('cabinet.adverts.photos', $advert) }}" class="btn btn-primary mr-1">Photos</a>
+                <a href="{{ route('adverts.admin.edit', $advert) }}" class="btn btn-primary mr-1">Edit</a>
+                <a href="{{ route('adverts.admin.photos', $advert) }}" class="btn btn-primary mr-1">Photos</a>
 
                 @if ($advert->isDraft())
-                    <form method="POST" action="{{ route('cabinet.adverts.send', $advert) }}" class="mr-1">
+                    <form method="POST" action="{{ route('adverts.man.send', $advert) }}" class="mr-1">
                         @csrf
                         <button class="btn btn-success">Publish</button>
                     </form>
                 @endif
                 @if ($advert->isActive())
-                    <form method="POST" action="{{ route('cabinet.adverts.close', $advert) }}" class="mr-1">
+                    <form method="POST" action="{{ route('adverts.man.close', $advert) }}" class="mr-1">
                         @csrf
                         <button class="btn btn-success">Close</button>
                     </form>
                 @endif
 
-                <form method="POST" action="{{ route('cabinet.adverts.destroy', $advert) }}" class="mr-1">
+                <form method="POST" action="{{ route('adverts.admin.destroy', $advert) }}" class="mr-1">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger">Delete</button>
@@ -115,7 +115,7 @@
             <div class="d-flex flex-row mb-3">
                 <span class="btn btn-success mr-1"><span class="fa fa-envelope"></span> Send Message</span>
                 <span class="btn btn-primary phone-button mr-1" data-source="{{ route('adverts.phone', $advert) }}"><span class="fa fa-phone"></span> <span class="number">Show Phone Number</span></span>
-                @if ($user && $user->hasInFavorites($advert->id))
+                @if ($advert->user && $advert->user->hasInFavorites($advert->id))
                     <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">
                         @csrf
                         @method('DELETE')

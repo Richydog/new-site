@@ -78,9 +78,12 @@
                 <td>
                     @if ($users->isAdmin())
                         <span class="badge badge-danger">Admin</span>
+                    @elseif($users->isModerator())
+                        <span class="badge badge-primary">Moderator</span>
                     @else
-                        <span class="badge badge-secondary">User</span>
+                        <span class="badge badge-success">User</span>
                     @endif
+
                 </td>
 
             </tr>

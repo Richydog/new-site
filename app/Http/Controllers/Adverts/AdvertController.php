@@ -104,8 +104,8 @@ class AdvertController extends Controller
        if (!($advert->isActive() || Gate::allows('show-advert', $advert))) {
            abort(403);
        }
-
-       return view('adverts.show',compact('advert'));
+$user=Auth::user();
+       return view('adverts.show',compact('advert','user'));
    }
 
     public function phone(Advert $advert): string

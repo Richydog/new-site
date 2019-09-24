@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Elasticsearch\ClientBuilder;
 class HomeController extends Controller
 {
     /**
@@ -13,7 +13,10 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+
     {
+
+
         return view('admin.home');
     }
 
